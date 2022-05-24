@@ -1,1 +1,3 @@
-export { Toast } from "./components";
+import { Toast } from "./components/Toast";
+
+export { Toast };

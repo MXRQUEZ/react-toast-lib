@@ -30,6 +30,9 @@ export default [
             },
         ],
         plugins: [
+            eslint({
+                fix: true,
+            }),
             peerDepsExternal(),
             commonjs(),
             typescript({
