@@ -2,11 +2,12 @@ module.exports = {
   extends: [
     "eslint:recommended",
     "airbnb",
+    "airbnb-typescript",
     "airbnb/hooks",
     "prettier",
     "plugin:@typescript-eslint/recommended",
     "plugin:prettier/recommended",
-    "plugin:storybook/recommended"
+    "plugin:storybook/recommended",
   ],
   ignorePatterns: ["*.*.js", "*.ts?commonjs-entry"],
   plugins: ["import", "@typescript-eslint","unused-imports", "react"],
@@ -85,6 +86,7 @@ module.exports = {
     "no-underscore-dangle": "off",
     "no-unused-expressions": ["error", { allowShortCircuit: true }],
     "no-plusplus": "off",
+    "class-methods-use-this": "off",
     "unused-imports/no-unused-imports": "error",
     "no-console": process.env.NODE_ENV === "production" ? "error" : "off",
     "no-debugger": process.env.NODE_ENV === "production" ? "error" : "off",
@@ -114,5 +116,5 @@ module.exports = {
         tsx: "never"
       }
     ]
-  },
+  }
 }

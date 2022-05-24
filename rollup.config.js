@@ -3,14 +3,20 @@ import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import commonjs from "@rollup/plugin-commonjs";
 import eslint from '@rollup/plugin-eslint';
 import typescript from "rollup-plugin-typescript2";
+import typescript2 from "@rollup/plugin-typescript"
 import babel from '@rollup/plugin-babel';
 import dts from "rollup-plugin-dts";
 import postcss from 'rollup-plugin-postcss';
 import createStyledComponentsTransformer from 'typescript-plugin-styled-components';
+import { terser } from "rollup-plugin-terser";
 
 const styledComponentsTransformer = createStyledComponentsTransformer({
     displayName: true,
 });
+
+function isDev() {
+    return !!process.argv.find(el => el === "--config-dev")
+}
 
 const packageJson = require("./package.json");
 
@@ -21,12 +27,12 @@ export default [
             {
                 file: packageJson.main,
                 format: "cjs",
-                sourcemap: true,
+                sourcemap: isDev(),
             },
             {
                 file: packageJson.module,
                 format: "esm",
-                sourcemap: true,
+                sourcemap: isDev(),
             },
         ],
         plugins: [
@@ -36,24 +42,28 @@ export default [
             peerDepsExternal(),
             commonjs(),
             typescript({
-                useTsconfigDeclarationDir: true,
+                tsconfig: "tsconfig.json",
                 transformers: [
                     () => ({
                         before: [styledComponentsTransformer],
                     }),
                 ],
             }),
+            typescript2({ tsconfig: "./tsconfig.json" }),
             postcss({
                 extensions: ['.css'],
             }),
             babel({
                 exclude: 'node_modules/**',
-                babelHelpers: "bundled",
-                presets: ["@babel/preset-react", "@babel/preset-typescript"],
-                plugins: ['babel-plugin-styled-components'],
+                babelHelpers: 'runtime',
+                skipPreflightCheck: true,
+                presets: ["@babel/preset-react", "@babel/preset-typescript", "@babel/preset-env"],
+                plugins: ['babel-plugin-styled-components', "plugin-transform-runtime"],
             }),
+            !isDev() ? terser() : null,
             resolve(),
         ],
+        external: [/@babel\/runtime/]
     },
     {
         input: "dist/esm/types/index.d.ts",
