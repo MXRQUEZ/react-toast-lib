@@ -9,7 +9,6 @@ module.exports = {
     "plugin:prettier/recommended",
     "plugin:storybook/recommended",
   ],
-  ignorePatterns: ["*.*.js", "*.ts?commonjs-entry"],
   plugins: ["import", "@typescript-eslint","unused-imports", "react"],
   env: {
     browser: true,

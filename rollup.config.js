@@ -14,9 +14,7 @@ const styledComponentsTransformer = createStyledComponentsTransformer({
     displayName: true,
 });
 
-function isDev() {
-    return !!process.argv.find(el => el === "--config-dev")
-}
+const isDev = () => !!process.argv.find(el => el === "--config-dev");
 
 const packageJson = require("./package.json");
 

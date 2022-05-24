@@ -28,7 +28,8 @@ dist/
 # https://docs.npmjs.com/misc/faq#should-i-check-my-node-modules-folder-into-git
 node_modules
 
-#ignore checking assets folder
-assets/
-public/
+# Ignore configuration files
 /**/*.d.ts
+*.config.js
+*.eslintrc.js
+*.ts?commonjs-entry
