@@ -2,8 +2,9 @@ import resolve from "@rollup/plugin-node-resolve";
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import commonjs from "@rollup/plugin-commonjs";
 import eslint from '@rollup/plugin-eslint';
-import typescript from "rollup-plugin-typescript2";
-import typescript2 from "@rollup/plugin-typescript"
+import typescript from "@rollup/plugin-typescript"
+import typescript2 from "rollup-plugin-typescript2";
+import alias from '@rollup/plugin-alias';
 import babel from '@rollup/plugin-babel';
 import dts from "rollup-plugin-dts";
 import postcss from 'rollup-plugin-postcss';
@@ -39,7 +40,7 @@ export default [
             }),
             peerDepsExternal(),
             commonjs(),
-            typescript({
+            typescript2({
                 tsconfig: "tsconfig.json",
                 transformers: [
                     () => ({
@@ -47,7 +48,17 @@ export default [
                     }),
                 ],
             }),
-            typescript2({ tsconfig: "./tsconfig.json" }),
+            typescript({
+                tsconfig: './tsconfig.json',
+                sourcemap: isDev(),
+                inlineSources: isDev(),
+            }),
+            alias({
+                resolve: ['.js', '.ts', '.jsx', '.tsx'],
+                entries: [
+                    { find: 'src', replacement: './src' },
+                ],
+            }),
             postcss({
                 extensions: ['.css'],
             }),
