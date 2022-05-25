@@ -5,6 +5,7 @@ import eslint from '@rollup/plugin-eslint';
 import typescript from "@rollup/plugin-typescript"
 import typescript2 from "rollup-plugin-typescript2";
 import alias from '@rollup/plugin-alias';
+import replace from "@rollup/plugin-replace";
 import babel from '@rollup/plugin-babel';
 import dts from "rollup-plugin-dts";
 import postcss from 'rollup-plugin-postcss';
@@ -38,6 +39,12 @@ export default [
             eslint({
                 fix: true,
             }),
+            !isDev() ? replace({
+                exclude: 'node_modules/**',
+                preventAssignment: true,
+                'process.env.NODE_ENV': JSON.stringify('production'),
+                ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
+            }) : null,
             peerDepsExternal(),
             commonjs(),
             typescript2({
@@ -50,7 +57,7 @@ export default [
             }),
             typescript({
                 tsconfig: './tsconfig.json',
-                sourcemap: isDev(),
+                sourceMap: isDev(),
                 inlineSources: isDev(),
             }),
             alias({
@@ -70,7 +77,7 @@ export default [
                 plugins: ['babel-plugin-styled-components', "plugin-transform-runtime"],
             }),
             !isDev() ? terser() : null,
-            resolve(),
+            resolve()
         ],
         external: [/@babel\/runtime/]
     },
