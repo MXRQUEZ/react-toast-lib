@@ -2,7 +2,6 @@ import resolve from "@rollup/plugin-node-resolve";
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
 import commonjs from "@rollup/plugin-commonjs";
 import eslint from '@rollup/plugin-eslint';
-import typescript from "@rollup/plugin-typescript"
 import typescript2 from "rollup-plugin-typescript2";
 import alias from '@rollup/plugin-alias';
 import replace from "@rollup/plugin-replace";
@@ -54,11 +53,6 @@ export default [
                         before: [styledComponentsTransformer],
                     }),
                 ],
-            }),
-            typescript({
-                tsconfig: './tsconfig.json',
-                sourceMap: isDev(),
-                inlineSources: isDev(),
             }),
             alias({
                 resolve: ['.js', '.ts', '.jsx', '.tsx'],
