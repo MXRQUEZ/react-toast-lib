@@ -26,7 +26,7 @@ const Svg: FC<React.SVGProps<SVGSVGElement>> = ({
 interface IconProps {
   readonly role: Role;
   readonly pxSize?: number;
-  readonly color?: string;
+  readonly color: string;
 }
 
 const StyledIcon = styled.i`
@@ -46,5 +46,4 @@ export const Icon: FC<IconProps> = ({ role, pxSize, color }) => {
 
 Icon.defaultProps = {
   pxSize: 24,
-  color: "white",
 };

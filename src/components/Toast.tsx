@@ -67,7 +67,7 @@ export const Toast: FC<ToastProps> = ({
   };
   return (
     <StyledToast {...styles}>
-      <Icon role={toastRole} />
+      <Icon color={color || "white"} role={toastRole} />
       <StyledSpan>{label}</StyledSpan>
     </StyledToast>
   );
