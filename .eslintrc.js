@@ -61,8 +61,8 @@ module.exports = {
 
     "react/jsx-filename-extension": ["error", { extensions: [".tsx"] }],
     "react/destructuring-assignment": 0,
-    "react/jsx-max-props-per-line": [1, { "maximum": 1 }],
-    "react/jsx-first-prop-new-line": [1, "multiline"],
+/*     "react/jsx-max-props-per-line": [1, { "maximum": 1 }],
+    "react/jsx-first-prop-new-line": [1, "multiline"], */
     "react/prop-types": 0,
     "react/prefer-stateless-function": 0,
     "react/react-in-jsx-scope": 0,
