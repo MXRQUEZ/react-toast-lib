@@ -1,10 +1,15 @@
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import styled, { css } from "styled-components";
 import { Icon } from "@components/Icon";
+import CloseButton from "@components/CloseButton";
 import { Role, ToastPosition } from "@/types";
 import { handleToastPosition } from "@/utils/handleToastPosition";
 
-interface StyledToastProps {
+interface StyledToastProps extends ToastStyles {
+  readonly display: "none" | "flex";
+}
+
+interface ToastStyles {
   readonly color?: string;
   readonly backgroundColor?: string;
   readonly bold?: boolean;
@@ -14,7 +19,7 @@ interface StyledToastProps {
 
 const StyledToast = styled.div<StyledToastProps>`
   position: absolute;
-  display: flex;
+  display: ${(props) => props.display};
   align-items: center;
   justify-content: center;
   padding: 10px;
@@ -40,11 +45,21 @@ const StyledToast = styled.div<StyledToastProps>`
     `}
 `;
 
-const StyledSpan = styled.span`
-  margin-right: 5px;
+const StyledIconWrapper = styled.div`
+  margin: 3px 10px 0 5px;
 `;
 
-export interface ToastProps extends StyledToastProps {
+const StyledSpan = styled.span`
+  margin-right: 1.2em;
+`;
+
+const StyledButtonWrapper = styled.div`
+  position: absolute;
+  top: 5px;
+  right: 5px;
+`;
+
+export interface ToastProps extends ToastStyles {
   readonly label: string;
   readonly toastRole: Role;
 }
@@ -58,17 +73,29 @@ export const Toast: FC<ToastProps> = ({
   fontSize,
   position,
 }) => {
+  const [isActive, setActive] = useState(true);
+  const handleClose = () => {
+    setActive(false);
+  };
+
   const styles: StyledToastProps = {
     color,
     backgroundColor,
     bold,
     fontSize,
     position,
+    display: isActive ? "flex" : "none",
   };
+
   return (
     <StyledToast {...styles}>
-      <Icon color={color || "white"} role={toastRole} />
+      <StyledIconWrapper>
+        <Icon color={color || "white"} type={toastRole} />
+      </StyledIconWrapper>
       <StyledSpan>{label}</StyledSpan>
+      <StyledButtonWrapper>
+        <CloseButton onClose={handleClose} color={color || "white"} />
+      </StyledButtonWrapper>
     </StyledToast>
   );
 };

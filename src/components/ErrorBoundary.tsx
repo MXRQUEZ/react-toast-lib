@@ -25,7 +25,7 @@ class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
-      const error = "Error happened while using toasts. Needs to be fixed";
+      const error = "Error happened while using Toasts. Needs to be fixed";
       return <Toast label={error} toastRole="error" position="bottom-right" />;
     }
 

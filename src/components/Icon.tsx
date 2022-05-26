@@ -1,7 +1,6 @@
 import React, { FC } from "react";
-import styled from "styled-components";
-import { Role } from "@/types";
-import { defineToastIcon } from "@/utils/defineToastIcon";
+import { IconType } from "@/types";
+import { defineIcon } from "@/utils/defineIcon";
 
 const Svg: FC<React.SVGProps<SVGSVGElement>> = ({
   height,
@@ -24,23 +23,19 @@ const Svg: FC<React.SVGProps<SVGSVGElement>> = ({
 };
 
 interface IconProps {
-  readonly role: Role;
+  readonly type: IconType;
   readonly pxSize?: number;
   readonly color: string;
 }
 
-const StyledIcon = styled.i`
-  margin: 3px 10px 0 5px;
-`;
-
-export const Icon: FC<IconProps> = ({ role, pxSize, color }) => {
-  const icon = defineToastIcon(role);
+export const Icon: FC<IconProps> = ({ type, pxSize, color }) => {
+  const icon = defineIcon(type);
   return (
-    <StyledIcon>
+    <i>
       <Svg height={pxSize} width={pxSize} fill={color}>
         {icon}
       </Svg>
-    </StyledIcon>
+    </i>
   );
 };
 
