@@ -57,7 +57,8 @@ export default [
             alias({
                 resolve: ['.js', '.ts', '.jsx', '.tsx'],
                 entries: [
-                    { find: 'src', replacement: './src' },
+                    { find: '@', replacement: './src' },
+                    { find: '@components', replacement: './src/components'}
                 ],
             }),
             postcss({
