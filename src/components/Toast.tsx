@@ -1,11 +1,14 @@
 import React, { FC, useEffect, useState } from "react";
-import styled, { css } from "styled-components";
+import styled, { css, keyframes } from "styled-components";
 import { Icon } from "@components/Icon";
 import CloseButton from "@components/CloseButton";
 import { ProgressBar } from "@components/ProgressBar";
 import { ErrorBoundary } from "@components/ErrorBoundary";
-import { Role, ToastPosition } from "@/types";
+import { createPortal } from "react-dom";
+import { Role, ToastAnimation, ToastPosition } from "@/types";
 import { handleToastPosition } from "@/utils/handleToastPosition";
+import { defineAnimation } from "@/utils/defineAnimation";
+import { generateToastId } from "@/utils/generateToastId";
 
 interface ToastStyles {
   readonly color?: string;
@@ -16,13 +19,14 @@ interface ToastStyles {
 }
 
 interface StyledToastProps extends ToastStyles {
-  readonly display: "none" | "flex";
   readonly timer: boolean;
+  readonly animation: ReturnType<typeof keyframes>;
 }
 
 const StyledToast = styled.div<StyledToastProps>`
   position: absolute;
-  display: ${(props) => props.display};
+  z-index: 999;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 10px;
@@ -45,7 +49,14 @@ const StyledToast = styled.div<StyledToastProps>`
     props.fontSize &&
     css`
       font-size: ${props.fontSize};
-    `}
+    `};
+
+  animation: ${(props) => props.animation};
+  animation-duration: 0.7s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+  animation-play-state: running;
+  animation-timing-function: ease-in-out;
 `;
 
 const StyledIconWrapper = styled.div`
@@ -76,14 +87,19 @@ const StyledProgressBarWrapper = styled.div`
 `;
 
 export interface ToastProps extends ToastStyles {
+  readonly id?: string;
+  readonly toastRootId: string;
   readonly title?: string;
   readonly description: string;
   readonly toastRole: Role;
-  readonly timerSec?: number;
-  readonly timerColor?: string;
+  readonly closeTimerSec?: number;
+  readonly progressBarColor?: string;
+  readonly animation?: ToastAnimation;
 }
 
 export const Toast: FC<ToastProps> = ({
+  id,
+  toastRootId,
   title,
   description,
   color,
@@ -92,37 +108,40 @@ export const Toast: FC<ToastProps> = ({
   fontSize,
   position,
   margin,
-  timerSec,
-  timerColor,
+  closeTimerSec,
+  progressBarColor,
+  animation,
 }) => {
   const [isActive, setActive] = useState<boolean>(true);
   const handleClose = (): void => setActive(false);
 
   useEffect(() => {
     let timerId: ReturnType<typeof setTimeout>;
-    if (timerSec) {
-      timerId = setTimeout(handleClose, timerSec * 1000);
+    if (closeTimerSec) {
+      timerId = setTimeout(handleClose, closeTimerSec * 1000);
     }
 
     return () => {
       clearTimeout(timerId);
     };
-  }, [timerSec]);
+  }, [closeTimerSec]);
 
+  const [animationIn, animationOut] = defineAnimation(position, animation!);
   const styles: StyledToastProps = {
     color,
     backgroundColor,
     fontSize,
     position,
     margin,
-    display: isActive ? "flex" : "none",
-    timer: !!timerSec,
+    animation: isActive ? animationIn : animationOut,
+    timer: !!closeTimerSec,
   };
 
-  return (
-    <ErrorBoundary>
+  return createPortal(
+    <ErrorBoundary toastRootId={toastRootId}>
       <StyledToast
         {...styles}
+        id={id || generateToastId()}
         aria-hidden={!isActive}
         aria-label="toast notification"
       >
@@ -136,22 +155,28 @@ export const Toast: FC<ToastProps> = ({
         <StyledButtonWrapper>
           <CloseButton onClose={handleClose} color={color!} />
         </StyledButtonWrapper>
-        {timerSec && (
+        {closeTimerSec && (
           <StyledProgressBarWrapper>
-            <ProgressBar color={timerColor!} durationSec={timerSec} />
+            <ProgressBar
+              color={progressBarColor!}
+              durationSec={closeTimerSec}
+            />
           </StyledProgressBarWrapper>
         )}
       </StyledToast>
-    </ErrorBoundary>
+    </ErrorBoundary>,
+    document.getElementById(toastRootId)!
   );
 };
 
 Toast.defaultProps = {
+  id: undefined,
   color: "white",
   backgroundColor: "rgba(0, 0, 0, 0.7)",
   fontSize: undefined,
   margin: undefined,
   title: undefined,
-  timerSec: undefined,
-  timerColor: "rgba(255, 255, 255, 0.5)",
+  closeTimerSec: undefined,
+  progressBarColor: "rgba(255, 255, 255, 0.5)",
+  animation: "default",
 };

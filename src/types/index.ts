@@ -7,3 +7,5 @@ export type ToastPosition =
   | "top-left"
   | "bottom-right"
   | "bottom-left";
+
+export type ToastAnimation = "default" | "slide" | "bounce" | "flip";

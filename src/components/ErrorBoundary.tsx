@@ -2,6 +2,7 @@ import React, { Component, ErrorInfo, ReactNode } from "react";
 import { Toast } from "@components/Toast";
 
 interface Props {
+  toastRootId: string;
   children: ReactNode;
 }
 
@@ -28,6 +29,7 @@ export class ErrorBoundary extends Component<Props, State> {
       const error = "Error happened while using Toasts. Needs to be fixed";
       return (
         <Toast
+          toastRootId={this.props.toastRootId}
           title="Error"
           description={error}
           toastRole="error"
