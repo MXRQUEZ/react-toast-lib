@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { Icon } from "@components/Icon";
 import CloseButton from "@components/CloseButton";
 import { ProgressBar } from "@components/ProgressBar";
+import { ErrorBoundary } from "@components/ErrorBoundary";
 import { Role, ToastPosition } from "@/types";
 import { handleToastPosition } from "@/utils/handleToastPosition";
 
@@ -119,27 +120,29 @@ export const Toast: FC<ToastProps> = ({
   };
 
   return (
-    <StyledToast
-      {...styles}
-      aria-hidden={!isActive}
-      aria-label="toast notification"
-    >
-      <StyledIconWrapper>
-        <Icon color={color!} type={toastRole} />
-      </StyledIconWrapper>
-      <StyledTextWrapper>
-        <StyledTitle aria-label="toast title">{title}</StyledTitle>
-        <span aria-label="notification description">{description}</span>
-      </StyledTextWrapper>
-      <StyledButtonWrapper>
-        <CloseButton onClose={handleClose} color={color!} />
-      </StyledButtonWrapper>
-      {timerSec && (
-        <StyledProgressBarWrapper>
-          <ProgressBar color={timerColor!} durationSec={timerSec} />
-        </StyledProgressBarWrapper>
-      )}
-    </StyledToast>
+    <ErrorBoundary>
+      <StyledToast
+        {...styles}
+        aria-hidden={!isActive}
+        aria-label="toast notification"
+      >
+        <StyledIconWrapper>
+          <Icon color={color!} type={toastRole} />
+        </StyledIconWrapper>
+        <StyledTextWrapper>
+          <StyledTitle aria-label="toast title">{title}</StyledTitle>
+          <span aria-label="notification description">{description}</span>
+        </StyledTextWrapper>
+        <StyledButtonWrapper>
+          <CloseButton onClose={handleClose} color={color!} />
+        </StyledButtonWrapper>
+        {timerSec && (
+          <StyledProgressBarWrapper>
+            <ProgressBar color={timerColor!} durationSec={timerSec} />
+          </StyledProgressBarWrapper>
+        )}
+      </StyledToast>
+    </ErrorBoundary>
   );
 };
 
