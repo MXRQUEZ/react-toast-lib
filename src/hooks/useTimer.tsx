@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 
 type TimerFunctions = [() => void, () => void];
 
-export const useTimer = (
-  callback: () => void,
+export const useTimer = <T,>(
+  callback: (...args: T[]) => void,
   delaySec?: number
 ): TimerFunctions => {
   const [remainingDelay, setRemainingDelay] = useState<number | null>(
@@ -19,7 +19,7 @@ export const useTimer = (
 
   useEffect(() => {
     if (remainingDelay && !timerIdRef.current) {
-      const tick = () => savedCallback.current();
+      const tick = (...args: T[]) => savedCallback.current(...args);
       timerIdRef.current = setTimeout(tick, remainingDelay);
     }
 
@@ -40,7 +40,7 @@ export const useTimer = (
   const resume = () => {
     if (remainingDelay) {
       delayStartRef.current = Date.now();
-      const tick = () => savedCallback.current();
+      const tick = (...args: T[]) => savedCallback.current(...args);
       timerIdRef.current = setTimeout(tick, remainingDelay);
     }
   };
