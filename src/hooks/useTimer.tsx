@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 type TimerFunctions = [() => void, () => void];
 
@@ -6,7 +6,7 @@ export const useTimer = <T,>(
   callback: (...args: T[]) => void,
   delaySec?: number
 ): TimerFunctions => {
-  const [remainingDelay, setRemainingDelay] = useState<number | null>(
+  const remainingDelayRef = useRef<number | null>(
     (delaySec && delaySec * 1000) || null
   );
   const delayStartRef = useRef<number>(Date.now());
@@ -18,9 +18,9 @@ export const useTimer = <T,>(
   }, [callback]);
 
   useEffect(() => {
-    if (remainingDelay && !timerIdRef.current) {
+    if (remainingDelayRef.current && !timerIdRef.current) {
       const tick = (...args: T[]) => savedCallback.current(...args);
-      timerIdRef.current = setTimeout(tick, remainingDelay);
+      timerIdRef.current = setTimeout(tick, remainingDelayRef.current);
     }
 
     return () => {
@@ -28,20 +28,20 @@ export const useTimer = <T,>(
         clearTimeout(timerIdRef.current);
       }
     };
-  }, [remainingDelay]);
+  }, []);
 
   const pause = () => {
-    if (remainingDelay && timerIdRef.current) {
+    if (remainingDelayRef.current && timerIdRef.current) {
       clearTimeout(timerIdRef.current);
-      setRemainingDelay(remainingDelay - (Date.now() - delayStartRef.current));
+      remainingDelayRef.current -= Date.now() - delayStartRef.current;
     }
   };
 
   const resume = () => {
-    if (remainingDelay) {
+    if (remainingDelayRef.current) {
       delayStartRef.current = Date.now();
       const tick = (...args: T[]) => savedCallback.current(...args);
-      timerIdRef.current = setTimeout(tick, remainingDelay);
+      timerIdRef.current = setTimeout(tick, remainingDelayRef.current);
     }
   };
 
