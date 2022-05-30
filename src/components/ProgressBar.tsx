@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import styled, { keyframes } from "styled-components";
 
 const progressAnimation = keyframes`
@@ -31,13 +31,15 @@ const StyledProgressBar = styled.div<ProgressBarProps>`
   animation-timing-function: linear;
 `;
 
-export const ProgressBar: FC<ProgressBarProps> = ({ color, durationSec }) => {
-  return (
-    <StyledProgressBar
-      color={color}
-      durationSec={durationSec}
-      aria-label="notification timer"
-      role="progressbar"
-    />
-  );
-};
+export const ProgressBar = React.forwardRef<HTMLDivElement, ProgressBarProps>(
+  (props, ref) => {
+    return (
+      <StyledProgressBar
+        ref={ref}
+        {...props}
+        aria-label="notification timer"
+        role="progressbar"
+      />
+    );
+  }
+);

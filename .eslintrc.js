@@ -74,6 +74,7 @@ module.exports = {
 
     "prettier/prettier": ["warn"],
 
+    "no-constructor-return": "off",
     "import/prefer-default-export": "off",
     "no-shadow": "off",
     "no-continue": "off",

@@ -1,14 +1,14 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import styled, { css, keyframes } from "styled-components";
 import { Icon } from "@components/Icon";
 import CloseButton from "@components/CloseButton";
 import { ProgressBar } from "@components/ProgressBar";
 import { ErrorBoundary } from "@components/ErrorBoundary";
-import { createPortal } from "react-dom";
 import { Role, ToastAnimation, ToastPosition } from "@/types";
 import { handleToastPosition } from "@/utils/handleToastPosition";
 import { defineAnimation } from "@/utils/defineAnimation";
 import { generateToastId } from "@/utils/generateToastId";
+import { useTimer } from "@/hooks/useTimer";
 
 interface ToastStyles {
   readonly color?: string;
@@ -30,6 +30,7 @@ const StyledToast = styled.div<StyledToastProps>`
   align-items: center;
   justify-content: center;
   padding: 10px;
+  cursor: pointer;
   ${(props) =>
     props.timer &&
     css`
@@ -88,7 +89,6 @@ const StyledProgressBarWrapper = styled.div`
 
 export interface ToastProps extends ToastStyles {
   readonly id?: string;
-  readonly toastRootId: string;
   readonly title?: string;
   readonly description: string;
   readonly toastRole: Role;
@@ -99,7 +99,6 @@ export interface ToastProps extends ToastStyles {
 
 export const Toast: FC<ToastProps> = ({
   id,
-  toastRootId,
   title,
   description,
   color,
@@ -114,17 +113,22 @@ export const Toast: FC<ToastProps> = ({
 }) => {
   const [isActive, setActive] = useState<boolean>(true);
   const handleClose = (): void => setActive(false);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const [pauseTimer, resumeTimer] = useTimer(handleClose, closeTimerSec);
 
-  useEffect(() => {
-    let timerId: ReturnType<typeof setTimeout>;
-    if (closeTimerSec) {
-      timerId = setTimeout(handleClose, closeTimerSec * 1000);
+  const handleMouseEnter = () => {
+    if (progressBarRef.current) {
+      progressBarRef.current.style.animationPlayState = "paused";
+      pauseTimer();
     }
+  };
 
-    return () => {
-      clearTimeout(timerId);
-    };
-  }, [closeTimerSec]);
+  const handleMouseLeave = () => {
+    if (progressBarRef.current) {
+      progressBarRef.current.style.animationPlayState = "running";
+      resumeTimer();
+    }
+  };
 
   const [animationIn, animationOut] = defineAnimation(position, animation!);
   const styles: StyledToastProps = {
@@ -137,13 +141,15 @@ export const Toast: FC<ToastProps> = ({
     timer: !!closeTimerSec,
   };
 
-  return createPortal(
-    <ErrorBoundary toastRootId={toastRootId}>
+  return (
+    <ErrorBoundary>
       <StyledToast
         {...styles}
         id={id || generateToastId()}
         aria-hidden={!isActive}
         aria-label="toast notification"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
       >
         <StyledIconWrapper>
           <Icon color={color!} type={toastRole} />
@@ -158,14 +164,14 @@ export const Toast: FC<ToastProps> = ({
         {closeTimerSec && (
           <StyledProgressBarWrapper>
             <ProgressBar
+              ref={progressBarRef}
               color={progressBarColor!}
               durationSec={closeTimerSec}
             />
           </StyledProgressBarWrapper>
         )}
       </StyledToast>
-    </ErrorBoundary>,
-    document.getElementById(toastRootId)!
+    </ErrorBoundary>
   );
 };
 
