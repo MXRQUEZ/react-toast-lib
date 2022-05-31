@@ -31,7 +31,7 @@ export class ToastService {
     return this.toast;
   }
 
-  public addToast(toast: ToastProps) {
+  public setToast(toast: ToastProps) {
     this.toast = createPortal(
       <ErrorBoundary>
         <Toast {...toast} />
