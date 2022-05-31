@@ -18,7 +18,7 @@ export const useTimer = <T,>(
   }, [callback]);
 
   useEffect(() => {
-    if (remainingDelayRef.current && !timerIdRef.current) {
+    if (remainingDelayRef.current) {
       const tick = (...args: T[]) => savedCallback.current(...args);
       timerIdRef.current = setTimeout(tick, remainingDelayRef.current);
     }

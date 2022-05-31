@@ -5,46 +5,36 @@ import {
   slideInRight,
   slideOutLeft,
   slideOutRight,
-} from "@/animations/slide";
+} from "@/animations/toast/slide";
 import {
   bounceInLeft,
   bounceInRight,
   bounceOutLeft,
   bounceOutRight,
-} from "@/animations/bounce";
-import { fadeIn, fadeOut } from "@/animations/default";
-import { flipIn, flipOut } from "@/animations/flip";
+} from "@/animations/toast/bounce";
+import { fadeIn, fadeOut } from "@/animations/toast/fade";
+import { flipIn, flipOut } from "@/animations/toast/flip";
 
 export const defineAnimation = (
   toastPosition: ToastPosition,
   animationType: ToastAnimation
 ): ReturnType<typeof keyframes>[] => {
-  if (animationType === "default") {
-    return [fadeIn, fadeOut];
-  }
-  if (animationType === "flip") {
-    return [flipIn, flipOut];
-  }
-
-  if (toastPosition?.endsWith("right")) {
-    switch (animationType) {
-      case "slide":
-        return [slideInRight, slideOutRight];
-      case "bounce":
-        return [bounceInRight, bounceOutRight];
-
-      default:
-        return [fadeIn, fadeOut];
-    }
-  }
-
   switch (animationType) {
     case "slide":
+      if (toastPosition?.endsWith("right")) {
+        return [slideInRight, slideOutRight];
+      }
       return [slideInLeft, slideOutLeft];
     case "bounce":
+      if (toastPosition?.endsWith("right")) {
+        return [bounceInRight, bounceOutRight];
+      }
       return [bounceInLeft, bounceOutLeft];
 
+    case "flip":
+      return [flipIn, flipOut];
+
     default:
-      return [];
+      return [fadeIn, fadeOut];
   }
 };

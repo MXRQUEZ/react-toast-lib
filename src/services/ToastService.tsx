@@ -1,5 +1,7 @@
-import { Toast, ToastProps } from "@components/Toast";
+import { Toast } from "@components/toast";
 import { createPortal } from "react-dom";
+import { ToastProps } from "@components/toast/interfaces";
+import { ErrorBoundary } from "@components/error-boundary";
 
 export class ToastService {
   private static instance: ToastService | null = null;
@@ -31,7 +33,9 @@ export class ToastService {
 
   public addToast(toast: ToastProps) {
     this.toast = createPortal(
-      <Toast {...toast} />,
+      <ErrorBoundary>
+        <Toast {...toast} />
+      </ErrorBoundary>,
       document.getElementById(this.toastRootId)!
     );
   }

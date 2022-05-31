@@ -1,5 +1,5 @@
 import React, { Component, ErrorInfo, ReactNode } from "react";
-import { Toast } from "@components/Toast";
+import { Toast } from "@components/toast";
 
 interface Props {
   children: ReactNode;

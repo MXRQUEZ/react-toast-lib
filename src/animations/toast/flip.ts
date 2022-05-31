@@ -33,6 +33,5 @@ export const flipOut = keyframes`
   to {
     transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
     opacity: 0;
-    visibility: hidden;
   }
 `;

@@ -58,7 +58,8 @@ export default [
                 resolve: ['.js', '.ts', '.jsx', '.tsx'],
                 entries: [
                     { find: '@', replacement: './src' },
-                    { find: '@components', replacement: './src/components'}
+                    { find: '@components', replacement: './src/components'},
+                    { find: '@services', replacement: './src/services'},
                 ],
             }),
             postcss({

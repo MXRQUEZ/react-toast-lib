@@ -15,6 +15,5 @@ export const fadeOut = keyframes`
   }
   to {
     opacity: 0;
-    visibility: hidden;
   }
 `;

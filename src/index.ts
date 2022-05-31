@@ -1,4 +1,4 @@
-import { Toast } from "@components/Toast";
+import { ToastService } from "@services/ToastService";
 
-export { Toast };
+export { ToastService };
 // # sourceMappingURL=index.js.map
