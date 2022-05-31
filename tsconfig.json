@@ -1,10 +1,12 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "@components/*": ["src/components/*"],
-      "@services/*": ["src/services/*"],
+      "animations/*": ["src/animations/*"],
+      "components/*": ["src/components/*"],
+      "services/*": ["src/services/*"],
+      "utils/*": ["src/utils/*"],
+      "hooks/*": ["src/hooks/*"]
     },
 
     "lib": [

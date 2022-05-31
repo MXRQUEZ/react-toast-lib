@@ -1,5 +1,5 @@
 import { css, SimpleInterpolation } from "styled-components";
-import { ToastPosition } from "@/types";
+import { ToastPosition } from "../types/toast";
 
 export const handleToastPosition = (
   position: ToastPosition

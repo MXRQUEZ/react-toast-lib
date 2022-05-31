@@ -1,9 +1,9 @@
-import { Toast } from "@components/toast";
+import { Toast } from "components/toast";
 import { createPortal } from "react-dom";
-import { ToastProps } from "@components/toast/interfaces";
-import { ErrorBoundary } from "@components/error-boundary";
+import ErrorBoundary from "components/error-boundary";
+import { ToastProps } from "../types/toast";
 
-export class ToastService {
+export default class ToastService {
   private static instance: ToastService | null = null;
 
   private readonly toastRootId: string;

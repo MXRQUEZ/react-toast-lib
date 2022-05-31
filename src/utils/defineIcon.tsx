@@ -1,5 +1,5 @@
 import React from "react";
-import { IconType } from "@/types";
+import { IconType } from "../types/icon";
 
 export const defineIcon = (type: IconType): JSX.Element => {
   switch (type) {

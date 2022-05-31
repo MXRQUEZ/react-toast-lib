@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
-import { StyledToastProps } from "@components/toast/interfaces";
-import { handleToastPosition } from "@/utils/handleToastPosition";
+import { handleToastPosition } from "utils/handleToastPosition";
+import { StyledToastProps } from "../../types/toast";
 
 export const StyledToast = styled.div<StyledToastProps>`
   position: absolute;

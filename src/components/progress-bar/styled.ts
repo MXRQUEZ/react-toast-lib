@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { ProgressBarProps } from "@components/progress-bar/interfaces";
-import { progress } from "@/animations/progress-bar/progress";
+import { progress } from "animations/progress-bar/progress";
+import { ProgressBarProps } from "../../types/progressBar";
 
 export const StyledProgressBar = styled.div<ProgressBarProps>`
   height: 5px;

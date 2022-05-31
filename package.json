@@ -1,6 +1,6 @@
 {
-  "name": "react-toasts",
-  "version": "1.0.0",
+  "name": "react-toasts-ui-lib",
+  "version": "1.0.5",
   "description": "Toasts react task",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",

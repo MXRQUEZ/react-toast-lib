@@ -1,6 +1,6 @@
 import { forwardRef, memo } from "react";
-import { ProgressBarProps } from "@components/progress-bar/interfaces";
 import { StyledProgressBar } from "./styled";
+import { ProgressBarProps } from "../../types/progressBar";
 
 const ProgressBar = forwardRef<HTMLDivElement, ProgressBarProps>(
   (props, ref) => {

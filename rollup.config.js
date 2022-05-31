@@ -57,9 +57,11 @@ export default [
             alias({
                 resolve: ['.js', '.ts', '.jsx', '.tsx'],
                 entries: [
-                    { find: '@', replacement: './src' },
-                    { find: '@components', replacement: './src/components'},
-                    { find: '@services', replacement: './src/services'},
+                    { find: 'components', replacement: './src/components'},
+                    { find: 'services', replacement: './src/services'},
+                    { find: 'utils', replacement: 'src/utils' },
+                    { find: 'animations', replacement: 'src/animations'},
+                    { find: 'hooks', replacement: 'src/hooks'}
                 ],
             }),
             postcss({
@@ -78,7 +80,7 @@ export default [
         external: [/@babel\/runtime/]
     },
     {
-        input: "dist/esm/types/index.d.ts",
+        input: "dist/esm/index.d.ts",
         output: [{ file: "dist/index.d.ts", format: "esm" }],
         plugins: [dts()],
     },

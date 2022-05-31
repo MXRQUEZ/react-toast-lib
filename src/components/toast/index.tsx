@@ -1,11 +1,10 @@
 import React, { FC, useRef, useState } from "react";
-import { StyledToastProps, ToastProps } from "@components/toast/interfaces";
-import CloseButton from "@components/close-button";
-import ProgressBar from "@components/progress-bar";
-import Icon from "@components/icon";
-import { defineAnimation } from "@/utils/defineAnimation";
-import { generateToastId } from "@/utils/generateToastId";
-import { useTimer } from "@/hooks/useTimer";
+import CloseButton from "components/close-button";
+import ProgressBar from "components/progress-bar";
+import Icon from "components/icon";
+import { defineAnimation } from "utils/defineAnimation";
+import { generateToastId } from "utils/generateToastId";
+import { useTimer } from "hooks/useTimer";
 import {
   StyledButtonWrapper,
   StyledIconWrapper,
@@ -14,6 +13,7 @@ import {
   StyledTitle,
   StyledToast,
 } from "./styled";
+import { StyledToastProps, ToastProps } from "../../types/toast";
 
 export const Toast: FC<ToastProps> = ({
   id = generateToastId(),

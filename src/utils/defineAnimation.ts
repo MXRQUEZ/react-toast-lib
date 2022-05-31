@@ -1,19 +1,19 @@
 import { keyframes } from "styled-components";
-import { ToastAnimation, ToastPosition } from "@/types";
 import {
   slideInLeft,
   slideInRight,
   slideOutLeft,
   slideOutRight,
-} from "@/animations/toast/slide";
+} from "animations/toast/slide";
 import {
   bounceInLeft,
   bounceInRight,
   bounceOutLeft,
   bounceOutRight,
-} from "@/animations/toast/bounce";
-import { fadeIn, fadeOut } from "@/animations/toast/fade";
-import { flipIn, flipOut } from "@/animations/toast/flip";
+} from "animations/toast/bounce";
+import { fadeIn, fadeOut } from "animations/toast/fade";
+import { flipIn, flipOut } from "animations/toast/flip";
+import { ToastAnimation, ToastPosition } from "../types/toast";
 
 export const defineAnimation = (
   toastPosition: ToastPosition,

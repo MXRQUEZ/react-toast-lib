@@ -1,7 +1,7 @@
 import React, { FC, memo } from "react";
-import { CloseButtonProps } from "@components/close-button/interfaces";
-import Icon from "@components/icon";
+import Icon from "components/icon";
 import { StyledButton } from "./styled";
+import { CloseButtonProps } from "../../types/closeButton";
 
 const CloseButton: FC<CloseButtonProps> = ({ onClose, color }) => {
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {

@@ -1,4 +1,6 @@
-import { IconType } from "@/types";
+import { ToastRole } from "./toast";
+
+export type IconType = ToastRole | "close";
 
 export interface IconProps {
   readonly type: IconType;
