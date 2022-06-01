@@ -12,25 +12,25 @@ export type ToastPosition =
 export type ToastAnimation = "default" | "slide" | "bounce" | "flip";
 
 export interface ToastStyles {
-  readonly color?: string;
-  readonly backgroundColor?: string;
-  readonly fontSize?: string;
-  readonly margin?: string;
-  readonly position: ToastPosition;
+  color?: string;
+  backgroundColor?: string;
+  fontSize?: string;
+  margin?: string;
+  position: ToastPosition;
 }
 
 export interface StyledToastProps extends ToastStyles {
-  readonly timer: boolean;
-  readonly animation: ReturnType<typeof keyframes>;
+  timer: boolean;
+  animation: ReturnType<typeof keyframes>;
 }
 
 export interface ToastProps extends ToastStyles {
-  readonly id?: string;
-  readonly title?: string;
-  readonly description: string;
-  readonly toastRole: ToastRole;
-  readonly closeTimerSec?: number;
-  readonly progressBarColor?: string;
-  readonly animation?: ToastAnimation;
-  readonly onClick?: (event?: MouseEvent<HTMLDivElement>) => void;
+  id?: string;
+  title?: string;
+  description: string;
+  toastRole: ToastRole;
+  closeTimerSec?: number;
+  progressBarColor?: string;
+  animation?: ToastAnimation;
+  onClick?: (event?: MouseEvent<HTMLDivElement>) => void;
 }

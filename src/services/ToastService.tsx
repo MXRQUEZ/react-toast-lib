@@ -8,35 +8,35 @@ export default class ToastService {
 
   private readonly toastRootId: string;
 
-  private toast: ReturnType<typeof Toast> | null;
+  private toasts: JSX.Element[];
 
   public constructor(toastRootId: string) {
     if (!ToastService.instance) {
-      ToastService.instance = this;
       this.toastRootId = toastRootId;
-      this.toast = null;
+      this.toasts = [];
+      ToastService.instance = this;
     }
 
     this.toastRootId = ToastService.instance.toastRootId;
-    this.toast = ToastService.instance.toast;
+    this.toasts = ToastService.instance.toasts;
 
     return ToastService.instance;
   }
 
-  public getInstance() {
-    return ToastService.instance;
+  public getToasts() {
+    return ToastService.instance?.toasts;
   }
 
-  public getToast() {
-    return this.toast;
-  }
-
-  public setToast(toast: ToastProps) {
-    this.toast = createPortal(
-      <ErrorBoundary>
-        <Toast {...toast} />
-      </ErrorBoundary>,
-      document.getElementById(this.toastRootId)!
-    );
+  public addToast(toast: ToastProps) {
+    if (ToastService.instance) {
+      ToastService.instance.toasts.push(
+        createPortal(
+          <ErrorBoundary>
+            <Toast {...toast} />
+          </ErrorBoundary>,
+          document.getElementById(this.toastRootId)!
+        )
+      );
+    }
   }
 }
