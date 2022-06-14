@@ -72,7 +72,12 @@ module.exports = {
     "react/function-component-definition": [2, { namedComponents: "arrow-function" }],
     "react/button-has-type": "off",
 
-    "prettier/prettier": ["warn"],
+    "prettier/prettier": [
+      "warn",
+      {
+        endOfLine: "auto",
+      }
+    ],
 
     "no-constructor-return": "off",
     "import/prefer-default-export": "off",
