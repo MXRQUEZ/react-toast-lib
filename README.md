@@ -1,5 +1,5 @@
-#Watch in storybook
+# Watch in storybook
 **npm** run storybook
 
-#Build project
+# Build project
 **npm** run rollup
