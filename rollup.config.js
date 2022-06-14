@@ -1,6 +1,6 @@
-import resolve from "@rollup/plugin-node-resolve";
+import resolve from '@rollup/plugin-node-resolve';
 import peerDepsExternal from 'rollup-plugin-peer-deps-external';
-import commonjs from "@rollup/plugin-commonjs";
+import commonjs from '@rollup/plugin-commonjs';
 import eslint from '@rollup/plugin-eslint';
 import typescript2 from "rollup-plugin-typescript2";
 import alias from '@rollup/plugin-alias';
@@ -28,22 +28,17 @@ export default [
                 format: "cjs",
                 sourcemap: isDev(),
             },
-            {
-                file: packageJson.module,
-                format: "esm",
-                sourcemap: isDev(),
-            },
         ],
         plugins: [
             eslint({
                 fix: true,
             }),
-            !isDev() ? replace({
+            isDev() ? null : replace({
                 exclude: 'node_modules/**',
                 preventAssignment: true,
                 'process.env.NODE_ENV': JSON.stringify('production'),
                 ENV: JSON.stringify(process.env.NODE_ENV || 'development'),
-            }) : null,
+            }),
             peerDepsExternal(),
             commonjs(),
             typescript2({
@@ -57,11 +52,11 @@ export default [
             alias({
                 resolve: ['.js', '.ts', '.jsx', '.tsx'],
                 entries: [
-                    { find: 'components', replacement: './src/components'},
-                    { find: 'services', replacement: './src/services'},
-                    { find: 'utils', replacement: 'src/utils' },
-                    { find: 'animations', replacement: 'src/animations'},
-                    { find: 'hooks', replacement: 'src/hooks'}
+                    { find: '@components', replacement: './src/components'},
+                    { find: '@services', replacement: './src/services'},
+                    { find: '@utils', replacement: 'src/utils' },
+                    { find: '@animations', replacement: 'src/animations'},
+                    { find: '@hooks', replacement: 'src/hooks'}
                 ],
             }),
             postcss({
@@ -80,8 +75,8 @@ export default [
         external: [/@babel\/runtime/]
     },
     {
-        input: "dist/esm/index.d.ts",
-        output: [{ file: "dist/index.d.ts", format: "esm" }],
+        input: "dist/cjs/index.d.ts",
+        output: [{ file: "dist/index.d.ts", format: "cjs" }],
         plugins: [dts()],
     },
 ];

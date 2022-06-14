@@ -3,11 +3,7 @@ import { MouseEvent } from "react";
 
 export type ToastRole = "info" | "warn" | "error" | "success";
 
-export type ToastPosition =
-  | "top-right"
-  | "top-left"
-  | "bottom-right"
-  | "bottom-left";
+export type ToastPosition = "top-right" | "top-left" | "bottom-right" | "bottom-left";
 
 export type ToastAnimation = "default" | "slide" | "bounce" | "flip";
 
@@ -29,8 +25,26 @@ export interface ToastProps extends ToastStyles {
   title?: string;
   description: string;
   toastRole: ToastRole;
-  closeTimerSec?: number;
+  closeDelayMS?: number;
   progressBarColor?: string;
   animation?: ToastAnimation;
   onClick?: (event?: MouseEvent<HTMLDivElement>) => void;
+}
+
+export interface ProgressBarProps {
+  readonly color: string;
+  readonly duration: number;
+}
+
+export type IconType = ToastRole | "close";
+
+export interface IconProps {
+  readonly type: IconType;
+  readonly pxSize: number;
+  readonly color: string;
+}
+
+export interface CloseButtonProps {
+  readonly onClose: (event: MouseEvent<HTMLButtonElement>) => void;
+  readonly color: string;
 }

@@ -77,6 +77,7 @@ module.exports = {
     "no-constructor-return": "off",
     "import/prefer-default-export": "off",
     "no-shadow": "off",
+    "default-case": "off",
     "no-continue": "off",
     "no-restricted-syntax": "off",
     "jsx-a11y/label-has-associated-control": "off",

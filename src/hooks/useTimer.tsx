@@ -1,15 +1,13 @@
 import { useEffect, useRef } from "react";
 
-type TimerFunctions = [() => void, () => void];
+export type TimerFunctions = {
+  pauseTimer: () => void;
+  resumeTimer: () => void;
+};
 
-export const useTimer = <T,>(
-  callback: (...args: T[]) => void,
-  delaySec?: number
-): TimerFunctions => {
-  const remainingDelayRef = useRef<number | null>(
-    (delaySec && delaySec * 1000) || null
-  );
-  const delayStartRef = useRef<number>(Date.now());
+export const useTimer = <T,>(callback: (...args: T[]) => void, delay?: number): TimerFunctions => {
+  const remainingDelayRef = useRef<number | null>(delay || null);
+  const startDelayRef = useRef<number>(Date.now());
   const timerIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const savedCallback = useRef(callback);
 
@@ -18,32 +16,39 @@ export const useTimer = <T,>(
   }, [callback]);
 
   useEffect(() => {
-    if (remainingDelayRef.current) {
-      const tick = (...args: T[]) => savedCallback.current(...args);
-      timerIdRef.current = setTimeout(tick, remainingDelayRef.current);
+    const { current: currentRemainingDelay } = remainingDelayRef;
+    if (currentRemainingDelay) {
+      const { current: currentCallback } = savedCallback;
+      const tick = (...args: T[]) => currentCallback(...args);
+      timerIdRef.current = setTimeout(tick, currentRemainingDelay);
     }
 
     return () => {
-      if (timerIdRef.current) {
-        clearTimeout(timerIdRef.current);
+      const { current: currentTimerId } = timerIdRef;
+      if (currentTimerId) {
+        clearTimeout(currentTimerId);
       }
     };
   }, []);
 
-  const pause = () => {
-    if (remainingDelayRef.current && timerIdRef.current) {
-      clearTimeout(timerIdRef.current);
-      remainingDelayRef.current -= Date.now() - delayStartRef.current;
+  const pauseTimer = () => {
+    const { current: currentTimerId } = timerIdRef;
+    const { current: currentStartDelay } = startDelayRef;
+    if (remainingDelayRef.current && currentTimerId) {
+      clearTimeout(currentTimerId);
+      remainingDelayRef.current -= Date.now() - currentStartDelay;
     }
   };
 
-  const resume = () => {
-    if (remainingDelayRef.current) {
-      delayStartRef.current = Date.now();
-      const tick = (...args: T[]) => savedCallback.current(...args);
-      timerIdRef.current = setTimeout(tick, remainingDelayRef.current);
+  const resumeTimer = () => {
+    const { current: currentRemainingDelay } = remainingDelayRef;
+    if (currentRemainingDelay) {
+      const { current: currentCallback } = savedCallback;
+      startDelayRef.current = Date.now();
+      const tick = (...args: T[]) => currentCallback(...args);
+      timerIdRef.current = setTimeout(tick, currentRemainingDelay);
     }
   };
 
-  return [pause, resume];
+  return { pauseTimer, resumeTimer };
 };

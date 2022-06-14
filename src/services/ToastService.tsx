@@ -1,6 +1,6 @@
-import { Toast } from "components/toast";
+import { Toast } from "@components/toast";
 import { createPortal } from "react-dom";
-import ErrorBoundary from "components/error-boundary";
+import ErrorBoundary from "@components/error-boundary";
 import { ToastProps } from "../types/toast";
 
 export default class ToastService {
@@ -10,7 +10,7 @@ export default class ToastService {
 
   private toasts: JSX.Element[];
 
-  public constructor(toastRootId: string) {
+  constructor(toastRootId: string) {
     if (!ToastService.instance) {
       this.toastRootId = toastRootId;
       this.toasts = [];

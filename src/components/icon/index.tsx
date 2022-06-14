@@ -1,7 +1,7 @@
-import React, { FC, memo } from "react";
-import { defineIcon } from "utils/defineIcon";
+import { FC, memo } from "react";
+import { defineIcon } from "@utils/defineIcon";
+import { IconProps } from "src/types/toast";
 import Svg from "./svg";
-import { IconProps } from "../../types/icon";
 
 const Icon: FC<IconProps> = ({ type, pxSize, color }) => {
   const icon = defineIcon(type);

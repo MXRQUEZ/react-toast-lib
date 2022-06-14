@@ -1,0 +1,12 @@
+# Ignore artifacts:
+build
+coverage
+dist
+node_modules
+assets
+
+# Ignore configuration files
+/**/*.d.ts
+*.config.js
+*.eslintrc.js
+*.ts?commonjs-entry

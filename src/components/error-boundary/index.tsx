@@ -1,5 +1,5 @@
-import React, { Component, ErrorInfo, ReactNode } from "react";
-import { Toast } from "components/toast";
+import { Component, ErrorInfo, ReactNode } from "react";
+import { Toast } from "@components/toast";
 
 interface Props {
   children: ReactNode;
@@ -15,7 +15,7 @@ export default class ErrorBoundary extends Component<Props, State> {
     this.state = { hasError: false };
   }
 
-  public static getDerivedStateFromError(_: Error): State {
+  public static getDerivedStateFromError(): State {
     return { hasError: true };
   }
 
@@ -26,14 +26,7 @@ export default class ErrorBoundary extends Component<Props, State> {
   render() {
     if (this.state.hasError) {
       const error = "Error happened while using Toasts. Needs to be fixed";
-      return (
-        <Toast
-          title="Error"
-          description={error}
-          toastRole="error"
-          position="bottom-right"
-        />
-      );
+      return <Toast title="Error" description={error} toastRole="error" position="bottom-right" />;
     }
 
     return this.props.children;

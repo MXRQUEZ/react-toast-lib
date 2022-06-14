@@ -45,7 +45,5 @@ dist/
 node_modules
 
 .eslintcache
-.storybook
 .stylelintcache
-*.stories.*
 tsconfig.tsbuildinfo

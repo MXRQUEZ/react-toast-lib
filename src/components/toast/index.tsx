@@ -1,10 +1,11 @@
-import React, { FC, useRef, useState } from "react";
-import CloseButton from "components/close-button";
-import ProgressBar from "components/progress-bar";
-import Icon from "components/icon";
-import { defineAnimation } from "utils/defineAnimation";
-import { generateToastId } from "utils/generateToastId";
-import { useTimer } from "hooks/useTimer";
+import { FC, useCallback, useRef, useState } from "react";
+import CloseButton from "@components/close-button";
+import { v4 as generateToastId } from "uuid";
+import ProgressBar from "@components/progress-bar";
+import Icon from "@components/icon";
+import { defineAnimation } from "@utils/defineAnimation";
+import { useTimer } from "@hooks/useTimer";
+import { StyledToastProps, ToastProps } from "src/types/toast";
 import {
   StyledButtonWrapper,
   StyledIconWrapper,
@@ -13,7 +14,6 @@ import {
   StyledTitle,
   StyledToast,
 } from "./styled";
-import { StyledToastProps, ToastProps } from "../../types/toast";
 
 export const Toast: FC<ToastProps> = ({
   id = generateToastId(),
@@ -25,7 +25,7 @@ export const Toast: FC<ToastProps> = ({
   fontSize,
   position,
   margin,
-  closeTimerSec,
+  closeDelayMS,
   progressBarColor = "rgba(255, 255, 255, 0.5)",
   animation = "default",
   onClick,
@@ -33,9 +33,9 @@ export const Toast: FC<ToastProps> = ({
   const [isActive, setActive] = useState<boolean>(true);
   const progressBarRef = useRef<HTMLDivElement>(null);
 
-  const handleClose = (): void => setActive(false);
+  const handleCloseCallback = useCallback(() => setActive(false), []);
 
-  const [pauseTimer, resumeTimer] = useTimer(handleClose, closeTimerSec);
+  const { pauseTimer, resumeTimer } = useTimer(handleCloseCallback, closeDelayMS);
 
   const handleMouseEnter = () => {
     if (progressBarRef.current) {
@@ -59,7 +59,7 @@ export const Toast: FC<ToastProps> = ({
     position,
     margin,
     animation: isActive ? animationIn : animationOut,
-    timer: !!closeTimerSec,
+    timer: !!closeDelayMS,
   };
 
   return (
@@ -81,15 +81,11 @@ export const Toast: FC<ToastProps> = ({
         <span aria-label="notification description">{description}</span>
       </StyledTextWrapper>
       <StyledButtonWrapper>
-        <CloseButton onClose={handleClose} color={color!} />
+        <CloseButton onClose={handleCloseCallback} color={color!} />
       </StyledButtonWrapper>
-      {closeTimerSec && (
+      {closeDelayMS && (
         <StyledProgressBarWrapper>
-          <ProgressBar
-            ref={progressBarRef}
-            color={progressBarColor!}
-            durationSec={closeTimerSec}
-          />
+          <ProgressBar ref={progressBarRef} color={progressBarColor!} duration={closeDelayMS} />
         </StyledProgressBarWrapper>
       )}
     </StyledToast>

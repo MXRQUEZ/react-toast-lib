@@ -1,11 +1,6 @@
-import React, { FC, memo, SVGProps } from "react";
+import { FC, memo, SVGProps } from "react";
 
-const Svg: FC<SVGProps<SVGSVGElement>> = ({
-  height,
-  width,
-  fill,
-  children,
-}) => {
+const Svg: FC<SVGProps<SVGSVGElement>> = ({ height, width, fill, children }) => {
   return (
     <svg
       height={height}

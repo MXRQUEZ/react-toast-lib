@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { handleToastPosition } from "utils/handleToastPosition";
+import { handleToastPosition } from "@utils/handleToastPosition";
 import { StyledToastProps } from "../../types/toast";
 
 export const StyledToast = styled.div<StyledToastProps>`

@@ -2,11 +2,11 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "animations/*": ["src/animations/*"],
-      "components/*": ["src/components/*"],
-      "services/*": ["src/services/*"],
-      "utils/*": ["src/utils/*"],
-      "hooks/*": ["src/hooks/*"]
+      "@animations/*": ["src/animations/*"],
+      "@components/*": ["src/components/*"],
+      "@services/*": ["src/services/*"],
+      "@utils/*": ["src/utils/*"],
+      "@hooks/*": ["src/hooks/*"]
     },
 
     "lib": [
